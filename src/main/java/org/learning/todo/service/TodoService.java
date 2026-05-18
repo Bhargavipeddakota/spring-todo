@@ -4,6 +4,7 @@ import org.jspecify.annotations.NonNull;
 import org.learning.todo.exceptions.TodoNotFoundException;
 import org.learning.todo.models.Task;
 import org.learning.todo.models.Todo;
+import org.learning.todo.repository.TodoRepository;
 import org.learning.todo.views.TaskView;
 import org.learning.todo.views.TodoView;
 import org.springframework.stereotype.Service;
@@ -15,8 +16,10 @@ import java.util.List;
 public class TodoService {
     private final HashMap<String, Todo> todos;
     private final IdGenerator idGenerator;
+    private final TodoRepository todoRepository;
 
-    public TodoService(IdGenerator idGenerator) {
+    public TodoService(IdGenerator idGenerator, TodoRepository todoRepository) {
+        this.todoRepository = todoRepository;
         this.todos = new HashMap<>();
         this.idGenerator = idGenerator;
     }
@@ -31,6 +34,7 @@ public class TodoService {
         String id = this.idGenerator.generate();
         Todo todo = new Todo(id, title);
         this.todos.put(id, todo);
+        this.todoRepository.save(todo);
         return todo.project(TodoView::new, TaskView::new);
     }
 
@@ -43,7 +47,8 @@ public class TodoService {
     }
 
     private @NonNull Todo getRawTodo(String todoId) {
-        Todo todo = this.todos.get(todoId);
+//        Todo todo = this.todos.get(todoId);
+        Todo todo = this.todoRepository.findTodoById(todoId);
         if (todo == null) throw new TodoNotFoundException(todoId);
         return todo;
     }

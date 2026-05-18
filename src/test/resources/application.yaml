@@ -1,0 +1,11 @@
+spring:
+  application:
+    name: todo
+  mongodb:
+    database: testdb
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 7.0.12

@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: todo
+  mongodb:
+    uri: ${TODO_MONGO_URI:"mongodb://localhost:27017"}

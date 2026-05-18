@@ -1,12 +1,16 @@
 package org.learning.todo.models;
 
 import org.learning.todo.exceptions.TaskNotFoundException;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Document
 public class Todo {
+    @Id
     private final String id;
     private final Map<String, Task> tasks;
     private final String title;
